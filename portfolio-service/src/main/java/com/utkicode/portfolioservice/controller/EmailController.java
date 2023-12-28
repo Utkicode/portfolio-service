@@ -8,14 +8,12 @@ import jakarta.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "*")
 public class EmailController {
     @Autowired
     EmailService emailService;
@@ -39,13 +37,10 @@ public class EmailController {
 
     @PostMapping("/sendEmail")
     public ResponseEntity<String> sendEmail(
-            @RequestParam String toEmail,
-            @RequestParam String subject,
-            @RequestParam String body,
-            @RequestParam String name) {
+            @RequestBody User user ) {
         try {
-            emailService.sendMailByUser(toEmail,subject,body, name);
-            return ResponseEntity.status(HttpStatus.OK).body("Email sent to " + toEmail + " " + name);
+            emailService.sendMailByUser(user.getToEmail(), user.getSubject(), user.getBody(), user.getName());
+            return ResponseEntity.status(HttpStatus.OK).body("Email sent to " + user.getToEmail() + " " + user.getName());
         }catch (Exception exception)
         {
             System.out.println(exception);

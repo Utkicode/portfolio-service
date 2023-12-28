@@ -23,7 +23,7 @@ public class EmailService {
             MimeMessage mimeMessage = javaMailSender.createMimeMessage();
             MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage);
             try{
-                mimeMessageHelper.setTo(user.getEmail());
+                mimeMessageHelper.setTo(user.getToEmail());
                 mimeMessageHelper.setSubject(subject);
                 mimeMessageHelper.setText(body, true);
                 javaMailSender.send(mimeMessage);
